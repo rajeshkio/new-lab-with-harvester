@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-root-app
+  namespace: argo
+spec:
+  project: default
+  destination:
+    namespace: argo
+    name: k3s-cluster
+  source:
+    repoURL: https://github.com/rajeshkio/new-lab-with-harvester.git 
+    path: ARGOCD
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+      - allowEmpty=true
+      - CreateNamespace=true
+      - Replace=true
+    automated:
+      allowEmpty: true
+      prune: true
+      selfHeal: true

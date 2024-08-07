@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: configmaps
+  namespace: argo
+spec:
+  generators:
+  - list:
+      elements:
+        - cluster: rke2-harvester
+          app-name: neuvector
+          namespace: cattle-neuvector-system
+  template:
+    metadata:
+      name: '{{cluster}}-{{app-name}}-cm'
+      namespace: argo
+    spec:
+      project: default
+      destination:
+        namespace: '{{namespace}}'
+        name: '{{cluster}}'
+      source:
+        repoURL: https://github.com/rajeshkio/new-lab-with-harvester.git 
+        path: 'applications/{{cluster}}/{{app-name}}/configmaps'
+        targetRevision: HEAD
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+        - ApplyOutOfSyncOnly=true

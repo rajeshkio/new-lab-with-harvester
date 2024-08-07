@@ -1,0 +1,27 @@
+tag: 5.3.3
+rbac: true
+global:
+  cattle:
+    url: https://rancher.rajesh-kumar.in/k8s/clusters/c-m-tmq8skgj 
+controller:
+  replicas: 3
+  ranchersso:
+    enabled: true
+  env:
+    - name: CTRL_EN_ICMP_POLICY
+      value: "1"
+    #- name" CTRL_PERSIST_CONFIG
+    #  value: "1"
+  affinity: {}
+  pvc:
+    enabled: false
+    storageClass: longhorn
+    capacity: 2Gi
+manager:
+  svc:
+    type: LoadBalancer 
+  env:
+    ssl: true
+cve:
+  scanner:
+    replicas: 3

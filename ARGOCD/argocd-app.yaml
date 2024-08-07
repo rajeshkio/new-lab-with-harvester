@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: main
+  namespace: argo
+spec:
+  generators:
+  - list:
+      elements:
+        - cluster: rke2-harvester 
+          app-name: neuvector
+          chart: core
+          targetRevision: 2.7.7
+          repoURL: 'https://neuvector.github.io/neuvector-helm/'
+          namespace: cattle-neuvector-system
+  template:
+    metadata:
+      name: '{{cluster}}-{{app-name}}'
+      namespace: argo
+    spec:
+      project: default
+      sources:
+        - repoURL: '{{repoURL}}'
+          targetRevision: '{{targetRevision}}'
+          helm:
+            valueFiles:
+              - '$values/applications/{{cluster}}/{{app-name}}/values.yaml'
+          chart: '{{chart}}'
+        - repoURL: 'https://github.com/rajeshkio/new-lab-with-harvester.git'
+          targetRevision: HEAD
+          ref: values
+      destination:
+        name: '{{cluster}}'
+        namespace: '{{namespace}}'
+      syncPolicy:
+        syncOptions:
+          - ServerSideApply=true
+          - CreateNamespace=true
+          - ApplyOutOfSyncOnly=true
+        automated:
+          prune: true
+          selfHeal: true
