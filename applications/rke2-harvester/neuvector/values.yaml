@@ -2,7 +2,7 @@ tag: 5.3.3
 rbac: true
 global:
   cattle:
-    url: https://rancher.rajesh-kumar.in/k8s/clusters/c-m-tmq8skgj 
+    url: https://rancher.rajesh-kumar.in/k8s/clusters/c-m-bx76dsgg 
 controller:
   replicas: 3
   ranchersso:
