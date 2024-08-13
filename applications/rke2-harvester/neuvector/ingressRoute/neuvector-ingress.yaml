@@ -1,18 +1,26 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1 
 kind: Ingress
 metadata:
-  name: nv-ingress
+  annotations:
+    ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  labels:
+    app: neuvector-webui-ingress
+  name: neuvector-webui-ingress
   namespace: cattle-neuvector-system
 spec:
-  ingressClassName: nginx
+  tls:
+  - hosts:
+    - nv.rajesh-kumar.in
+    secretName: rancher-tls-cert 
   rules:
-  - host: "nv.rajesh-kumar.in"
+  - host: nv.rajesh-kumar.in
     http:
       paths:
-      - path: /
-        pathType: Prefix
-        backend:
+      - backend:
           service:
             name: neuvector-service-webui
             port:
               number: 8443
+        path: /
+        pathType: Prefix
