@@ -4,7 +4,12 @@ global:
   cattle:
     url: https://rancher.rajesh-kumar.in/k8s/clusters/c-m-bx76dsgg 
 controller:
-  replicas: 3
+  apisvc:
+    type: ClusterIP 
+  replicas: 1
+  federation:
+    managedsvc:
+      type: ClusterIP
   ranchersso:
     enabled: true
   env:
@@ -17,9 +22,9 @@ controller:
     capacity: 2Gi
 manager:
   svc:
-    type: LoadBalancer 
+    type: ClusterIP 
   env:
     ssl: true
 cve:
   scanner:
-    replicas: 3
+    replicas: 1
