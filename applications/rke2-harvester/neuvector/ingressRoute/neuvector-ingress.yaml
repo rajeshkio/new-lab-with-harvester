@@ -24,3 +24,40 @@ spec:
               number: 8443
         path: /
         pathType: Prefix
+
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  labels:
+    app: neuvector-api-fed-ingress
+  name: neuvector-api-fed-ingress
+  namespace: cattle-neuvector-system
+spec:
+  tls:
+  - hosts:
+    - nv.rajesh-kumar.in
+    secretName: rancher-tls-cert
+  rules:
+  - host: nv.rajesh-kumar.in
+    http:
+      paths:
+      - path: /api(/|$)(.*)
+        pathType: ImplementationSpecific 
+        backend:
+          service:
+            name: neuvector-svc-controller-api
+            port:
+              number: 10443
+      - path: /fedmanaged:443(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: neuvector-svc-controller-fed-managed
+            port:
+              number: 10443
