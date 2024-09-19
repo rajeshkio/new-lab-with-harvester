@@ -1,4 +1,4 @@
-tag: 5.4.0-b3
+tag: 5.4.0
 rbac: true
 global:
   cattle:
