@@ -27,7 +27,7 @@ spec:
               - '$values/applications/{{cluster}}/{{app-name}}/values.yaml'
           chart: '{{chart}}'
         - repoURL: 'https://github.com/rajeshkio/new-lab-with-harvester.git'
-          targetRevision: HEAD
+          targetRevision: experiment-branch
           ref: values
       destination:
         name: '{{cluster}}'
