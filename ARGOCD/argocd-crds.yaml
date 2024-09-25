@@ -9,6 +9,9 @@ spec:
       elements:
         - cluster: rke2-harvester 
           app-name: neuvector
+          chart: crd
+          targetRevision: 2.7.9
+          repoURL: 'https://neuvector.github.io/neuvector-helm/'
           namespace: cattle-neuvector-system
   template:
     metadata:
@@ -19,10 +22,17 @@ spec:
       destination:
         namespace: '{{namespace}}'
         name: '{{cluster}}'
-      source:
-        repoURL: https://github.com/rajeshkio/new-lab-with-harvester.git 
-        path: 'applications/{{cluster}}/{{app-name}}/crds'
-        targetRevision: HEAD
+      sources:
+        - repoURL: '{{repoURL}}'
+          targetRevision: '{{targetRevision}}'
+          helm:
+            valueFiles:
+              - '$values/applications/{{cluster}}/{{app-name}}/crds/values.yaml'
+          chart: '{{chart}}'
+        - repoURL: https://github.com/rajeshkio/new-lab-with-harvester.git 
+          path: 'applications/{{cluster}}/{{app-name}}/crds'
+          targetRevision: experiment-branch
+          ref: values
       syncPolicy:
         automated:
           prune: true

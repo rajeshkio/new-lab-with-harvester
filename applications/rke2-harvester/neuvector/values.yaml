@@ -4,6 +4,8 @@ global:
   cattle:
     url: https://rancher.rajesh-kumar.in/k8s/clusters/c-m-bx76dsgg 
 controller:
+  image:
+    repository: rk90229/nv-controller
   apisvc:
     type: ClusterIP 
   replicas: 1
@@ -28,3 +30,5 @@ manager:
 cve:
   scanner:
     replicas: 1
+crdwebhook:
+  enabled: false
