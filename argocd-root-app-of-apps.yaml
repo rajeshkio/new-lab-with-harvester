@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/rajeshkio/new-lab-with-harvester.git 
     path: ARGOCD
-    targetRevision: HEAD
+    targetRevision: experiment-branch
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
