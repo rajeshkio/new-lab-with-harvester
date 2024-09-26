@@ -1,11 +1,11 @@
-tag: 5.3.4
+tag: 5.4.0
 rbac: true
 global:
   cattle:
     url: https://rancher.rajesh-kumar.in/k8s/clusters/c-m-bx76dsgg 
 controller:
-  image:
-    repository: rk90229/nv-controller
+#  image:
+#    repository: rk90229/nv-controller
   apisvc:
     type: ClusterIP 
   replicas: 1
